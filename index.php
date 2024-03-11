@@ -7,52 +7,29 @@
     Stampiamo delle card contenenti i dettagli dei prodotti, come immagine, titolo, prezzo, icona della categoria ed il tipo di articolo che si sta visualizzando (prodotto, cibo, gioco, cuccia).
     */
 
-    class Prodotto{
-        public $name;
-        public $prezzo;
-        public $immagine;
-        public $categoria;
+    require_once __DIR__ . "/models/Product.php";
+    require_once __DIR__ . "/models/Food.php";
+    require_once __DIR__ . "/models/Game.php";
+    require_once __DIR__ . "/models/Category.php";
 
-        public function __construct($name, $prezzo, $immagine, $categoria){
-            $this->name = $name;
-            $this->prezzo = $prezzo;
-            $this->immagine = $immagine;
-            $this->categoria = $categoria;
-        }
-    }
-
-    class Cibo extends Prodotto {
-        public $tipo = "Cibo";
-        public function tipoCibo(){
-            return $this->tipo;
-        }
-    }
-
-    class Gioco extends Prodotto {
-        public $tipo = "Gioco";
-        public function tipoGioco(){
-            return $this->Gioco;
-        }
-    }
-
-    class Cuccia extends Prodotto {
-        public $tipo = "Cuccia";
+    // 2 categorie
     
-        public function tipoCuccia(){
-            return $this->tipo;
-        }
-    }
+    $dogs = new Category('Dogs', 'fa-solid fa-dog');
+    $cats = new Category('Cats', 'fa-solid fa-cat');
 
+    //creare istanze delle altre classi
+    $prdouct = new Product ("Collare", 10.00, "img/thea-GY_JFp-Pei0-unsplash.jpg", true, 10, $dogs);
+    $food = new Food("Crocchette", 20.00, "img/ayla-verschueren-jnq52JjkLAg-unsplash.jpg", true, 10, $cats);
+    $game = new Game("Palla da tennis", 5.00, "img/kevin-mueller-Q-fL04RhuMg-unsplash.jpg", true, 10, $dogs);
+    
+    $food->setCalories(200);
+    $game->setGenre("ball");
 
-
-    $cibo = new Cibo("Crocchette", "19.99", "immagine_cibo.jpg", "Cane");
-    $gioco = new Gioco("Pallina", "4.99", "immagine_pallina.jpg", "Gatto");
-    $cuccia = new Cuccia("Cuccia Morbida", "39.99", "immagine_cuccia.jpg", "Cane");
-
-    var_dump($cibo, $gioco, $cuccia);
-
-
-
+    $products = [
+        $prdouct,
+        $food,
+        $game
+    ];
 ?>
 
 <!DOCTYPE html>
@@ -61,13 +38,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>E-commerce</title>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.css' integrity='sha512-tx5+1LWHez1QiaXlAyDwzdBTfDjX07GMapQoFTS74wkcPMsI3So0KYmFe6EHZjI8+eSG0ljBlAQc3PQ5BTaZtQ==' crossorigin='anonymous'/>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-
-    <h1 class="text-3xl  ">
-        Hello world!
-    </h1>
+<body >
+    <main>
+        <div class="h-screen flex items-center justify-center"> 
+            <div class="row container flex mx-auto gap-4 ">
+                <?php foreach($products as $element): ?>
+                    <div class="card text-start bg-white">
     
+                        <img class="card-img-top" 
+                        src="<?php echo $element->image; ?>" 
+                        alt="<?php echo $element->name; ?>" />
+    
+                        <div class="card-body">
+                            <h4 class="card-title font-bold"><?php echo $element->name; ?></h4>
+                            <p class="card-text">€<?php echo $element->price; ?></p>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+        
+    </main>
 </body>
 </html>
